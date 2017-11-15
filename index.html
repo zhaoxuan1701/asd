@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>二级联动菜单-省份城市</title>
+	</head>
+	<body onload='init()'>
+		<table border="1" align="center">
+			<tr>
+				<td>省份/直辖市</td>
+				<td width="300">
+					<select id='province' name="province" onchange="selectProvince()">
+						
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>城市</td>
+				<td width="300">
+					<select id='city' name="city" onchange="selectCity()">
+						
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>您选择的是：</td>
+				<td>
+					<sapn id='result'></sapn>
+				</td>
+			</tr>
+		</table>
+		
+	</body>
+</html>
+<script type="text/javascript">
+	var where = new Array();
+	where[0] = new Array('===请选择省份===','===请选择城市===');
+	where[1] = new Array('四川','|成都|绵阳|德阳|自贡|攀枝花');
+	where[2] = new Array('贵州','|贵阳|六盘水|遵义');
+	where[3] = new Array('云南','|昆明|大理');
+	
+	var msg = new Array('','');
+	function init(){
+		var province = document.getElementById('province');
+		var city = document.getElementById("city");
+		for (var i=0 ; i<where.length; i++){
+			province.options[i] = new Option(where[i][0],where[i][0])
+		}
+		city.options[0] = new Option(where[0][1],where[0][1]);
+	}
+	
+	function selectProvince (){
+		var province = document.getElementById('province');
+		var city = document.getElementById("city");
+		var result = document.getElementById('result');
+		
+		var value = province.value;
+		for (var i=0 ; i<where.length; i++) {
+			if(where[i][0] == value){
+				//console.log(where[i][0])
+				city.length=0;
+				var cityArr = where[i][1].split('|');
+				city[0] = new Option(where[0][1],where[0][1])
+				for (var k=1; k<cityArr.length;k++) {
+					city[k] = new Option(cityArr[k],cityArr[k])
+					console.log(city[k])
+				}
+				break;
+			}
+		}
+		city.value=city[1].value;
+		msg[0]=value;
+		msg[1] = city.value;
+		result.innerHTML = msg[0]+' '+msg[1];
+	}
+	function selectCity(){
+		var city = document.getElementById("city");
+		var result = document.getElementById("result");
+		msg[1] = city.value;
+		result.innerHTML = msg[0]+' '+msg[1];
+	}
+</script>
